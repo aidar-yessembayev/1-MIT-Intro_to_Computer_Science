@@ -38,50 +38,39 @@ def main_first_task():
 
 # 2 task
 def paying_debt_off_in_a_year(balance, interest_rate):
-    monthly_interest_rate = interest_rate / 12.0
+    monthly_payment = balance / 12
+    if monthly_payment % 10 != 0:
+        monthly_payment -= monthly_payment % 10
 
-    approx_payment = balance / 12
-    remainder = approx_payment % 10
-    monthly_payment = approx_payment - remainder
-
-    quantity_of_month = 1
     updated_balance = balance
+    while updated_balance >= 0:
+        updated_balance = balance
+        months_needed = 0
+        monthly_payment += 10
 
-    # while True:
-    #
-    #
-    #     while quantity_of_month <= 12:
-    #
-    #         quantity_of_month += 1
-    #
-    # monthly_payment += 10
-    #
-    #     updated_balance = updated_balance * (1 + monthly_interest_rate) - monthly_payment
-    #
-    #     updated_balance -= monthly_payment
+        while months_needed < 12:
+            months_needed += 1
 
-    # while quantity_of_month <= 12:
-    #     updated_balance = updated_balance * (1 + monthly_interest_rate)
-    #
-    #     if minimum_monthly_payment * quantity_of_month - updated_balance >= 0:
-    #         break
-    #     else:
-    #
-    #
-    #     updated_balance = updated_balance * (1 + monthly_interest_rate) - minimum_monthly_payment
-    #
-    #     quantity_of_month += 1
-    #
-    #
-    # print(updated_balance)
-    # print(quantity_of_month)
+            monthly_interest_rate_payment = updated_balance * (interest_rate / 12)
+            updated_balance += monthly_interest_rate_payment - monthly_payment
+
+            if updated_balance <= 0:
+                break
+
+    return monthly_payment, months_needed, updated_balance
 
 
 def main_second_task():
     balance_on_the_credit_card = int(input("Balance on the credit card: "))
     interest_rate = float(input("Interest rate: "))
 
-    paying_debt_off_in_a_year(balance_on_the_credit_card, interest_rate)
+    minimum_monthly_payment, months_needed, updated_balance = \
+        paying_debt_off_in_a_year(balance_on_the_credit_card, interest_rate)
+
+    print("RESULT")
+    print("Monthly payment to pay off debt in 1 year: ", minimum_monthly_payment)
+    print("Number of months needed: ", months_needed)
+    print("Balance: ", round(updated_balance, 2))
 
 
 def main():
